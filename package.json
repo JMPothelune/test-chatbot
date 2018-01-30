@@ -11,7 +11,8 @@
     "test-unit": "istanbul cover ./node_modules/mocha/bin/_mocha test/unit",
     "lint": "eslint .",
     "autofix": "eslint --fix .",
-    "codecov": "npm run test && (codecov || true)"
+    "codecov": "npm run test && (codecov || true)",
+    "forever": "forever start -w -c \"node server.js\" ./"
   },
   "repository": {
     "type": "git",

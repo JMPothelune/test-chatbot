@@ -9,7 +9,8 @@ var ConversationPanel = (function() {
       chatBox: '#scrollingChat',
       fromUser: '.from-user',
       fromWatson: '.from-watson',
-      latest: '.latest'
+      latest: '.latest',
+      quickRepliesHolder: '#quickRepliesHolder'
     },
     authorTypes: {
       user: 'user',
@@ -114,6 +115,7 @@ var ConversationPanel = (function() {
 
   // Display a user or Watson message that has just been sent/received
   function displayMessage(newPayload, typeValue) {
+
     var isUser = isUserMessage(typeValue);
     var textExists = (newPayload.input && newPayload.input.text)
       || (newPayload.output && newPayload.output.text);
@@ -139,7 +141,31 @@ var ConversationPanel = (function() {
       // Move chat to the most recent messages when new messages are added
       scrollToChatBottom();
     }
+
+    updateQuickReplies(newPayload);
   }
+
+  // Display a user or Watson message that has just been sent/received
+  function updateQuickReplies(newPayload) {
+
+    var quickRepliesExists = (newPayload.output && newPayload.output.quickReplies);
+    var quickRepliesHolder = document.querySelector(settings.selectors.quickRepliesHolder);
+
+    // Remove alls
+    while (quickRepliesHolder.firstChild) {
+      quickRepliesHolder.removeChild(quickRepliesHolder.firstChild);
+    } 
+
+    if (quickRepliesExists) {
+      // Create new quickReplies DOM element
+      var quickRepliesDivs = buildQuickRepliesElements(newPayload);
+
+      quickRepliesDivs.forEach(function(currentDiv) {
+        quickRepliesHolder.appendChild(currentDiv);
+      });
+    }
+  }
+
 
   // Checks if the given typeValue matches with the user "name", the Watson "name", or neither
   // Returns true if user, false if Watson, and null if neither
@@ -190,6 +216,34 @@ var ConversationPanel = (function() {
     return messageArray;
   }
 
+  // Constructs new DOM element from a message payload
+  function buildQuickRepliesElements(newPayload) {
+    var quickReplies = newPayload.output.quickReplies;
+    if (Object.prototype.toString.call( quickReplies ) !== '[object Array]') {
+      quickReplies = [quickReplies];
+    }
+    var quickRepliesArray = [];
+
+    quickReplies.forEach(function(quickReply) {
+      if (quickReply) {
+        var messageJson = {
+          // <div class='quickReply'>
+          'tagName': 'div',
+          'classNames': ['quickReply'],
+          'text': quickReply.text
+        };
+        var domElement = Common.buildDomElement(messageJson);
+        domElement.addEventListener("click", function(e){
+          var message = quickReply.message ||quickReply.text;
+          sendMessage(message);
+        })
+        quickRepliesArray.push(domElement);
+      }
+    });
+
+    return quickRepliesArray;
+  }
+
   // Scroll to the bottom of the chat window (to the most recent messages)
   // Note: this method will bring the most recent user message into view,
   //   even if the most recent message is from Watson.
@@ -210,6 +264,15 @@ var ConversationPanel = (function() {
   function inputKeyDown(event, inputBox) {
     // Submit on enter key, dis-allowing blank messages
     if (event.keyCode === 13 && inputBox.value) {
+      sendMessage(inputBox.value)
+      inputBox.value = '';
+      // Clear input box for further messages
+      Common.fireEvent(inputBox, 'input');
+    }
+  }
+
+  function sendMessage(message){
+    
       // Retrieve the context from the previous server response
       var context;
       var latestResponse = Api.getResponsePayload();
@@ -218,11 +281,7 @@ var ConversationPanel = (function() {
       }
 
       // Send the user message
-      Api.sendRequest(inputBox.value, context);
+      Api.sendRequest(message, context);
 
-      // Clear input box for further messages
-      inputBox.value = '';
-      Common.fireEvent(inputBox, 'input');
-    }
   }
 }());

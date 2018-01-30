@@ -8,6 +8,7 @@ body {
   font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: aqua;
 }
 
 div {
@@ -44,7 +45,14 @@ div {
 }
 
 #contentParent {
-  height: 100%;
+    position: absolute;     
+    max-height: 50%;
+    bottom: 0px;
+    right: 20px;
+    width: 400px;
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px; 
 }
 
 .responsive-columns-wrapper {
@@ -68,6 +76,9 @@ div {
 }
 
 .chat-column {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
   height: 100%;
   padding: 0.9375rem 0 0.625rem 0;
   margin: auto;
@@ -78,9 +89,8 @@ div {
 
 #scrollingChat {
   margin: 0.75rem;
-  overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100% - 4rem);
+  
 }
 
 .message-inner {
@@ -101,6 +111,26 @@ div {
   transition-property: opacity, margin-top;
   transition-duration: 0.75s;
   transition-timing-function: ease-in;
+}
+
+#quickRepliesHolder {
+  display: block;
+}
+
+#quickRepliesHolder .quickReply{
+  float: right;
+  background-color: darkslateblue;
+  color: white;
+  border-radius: 200px;
+  padding: 5px 15px 7px 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .load .message-inner {
@@ -188,6 +218,22 @@ div {
   line-height: 1.3125rem;
 }
 
+label {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  color: #323232;
+  letter-spacing: 0.015rem;
+  line-height: 1.3125rem;
+  height: 2.5rem;
+  max-width: 100%;
+  padding-left: 0.125rem;
+  margin-bottom: -0.125rem;
+  font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
+
+}
+
 #textInput {
   border: none;
   outline: none;
@@ -254,15 +300,17 @@ input:-moz-placeholder {
   color: #fff;
   overflow-x: auto;
 
-  width: 45%;
+  width: 0%;
   max-width: 32.0625rem;
   min-width: 29.6875rem;
+  display: none;
 }
 
 #payload-column.full {
-  width: 100%;
+  width: 45%;
   max-width: none;
   min-width: initial;
+  display: block;
 }
 
 #payload-column .header-text, #payload-column #payload-initial-message {
@@ -331,6 +379,7 @@ html{
     min-width: initial;
   }
 }
+
 
 /* IBM Design fonts https://github.ibm.com/Design/fonts */
 @font-face {
