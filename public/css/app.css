@@ -8,9 +8,14 @@ body {
   font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: aqua;
+  background-color: white;
 }
 
+.redSeparator{
+  height: 30px;
+  width: 100%;
+  background-color: #BD2027;
+}
 div {
   word-wrap: break-word;
   line-height: 1.25rem;
@@ -50,7 +55,7 @@ div {
     bottom: 0px;
     right: 20px;
     width: 400px;
-    background-color: white;
+    background-color: #EEEEEE;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px; 
 }

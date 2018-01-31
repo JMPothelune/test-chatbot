@@ -1,15 +1,15 @@
 ---
 declared-services:
-  my-conversation-service:
+  Conversation-helpdesk-dev:
     label: conversation
-    plan: free
+    plan: lite
 applications:
-- name: conversation-simple
+- name: Generali-Helpdesk-UI-dev
   command: npm start
   path: .
   memory: 256M
   instances: 1
   services:
-  - my-conversation-service
+  - Conversation-helpdesk-dev
   env:
     NPM_CONFIG_PRODUCTION: false
