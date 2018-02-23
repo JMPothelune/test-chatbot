@@ -69,15 +69,40 @@ div {
   -ms-flex-direction: row;
 }
 
-.chat-column .chatTitle{
+.chat-column .header{
     padding: 0px;
-    padding-left: 10px;
-    padding-top: 20px;
+    padding-left: 2.0rem;
+    padding-top: 1.2rem;
     margin: 0px;
-    font-weight: 100;
-    font-size: 13pt;
-    font-style: normal;
-    font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.chat-column .header .chatTitle{
+  font-weight: 100;
+  font-size: 13pt;
+  font-style: normal;
+  font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.chat-column .header .buttonHolder{
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+}
+
+.chat-column .header .buttonHolder img{
+    -webkit-transition: opacity 0.1s ease-in-out;
+    -moz-transition: opacity 0.1s ease-in-out;
+    transition: opacity 0.1s ease-in-out;
+    opacity: 0.5;
+    margin: 5px;
+}
+
+.chat-column .header .buttonHolder img:hover{
+    opacity: 1;
+    margin: 5px;
 }
 
 
@@ -132,6 +157,41 @@ div {
   transition-timing-function: ease-in;
 }
 
+.choice-list img{
+  border-radius: 5px;
+}
+
+.conversation-review{
+  flex-direction: row;
+  display: flex;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.conversation-review div{
+  flex-direction: row;
+  display: inline;
+  background-color: #00000010;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.conversation-review div:hover{
+  flex-direction: row;
+  display: inline;
+  background-color: #00000030;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.conversation-review .selected{
+  flex-direction: row;
+  display: inline;
+  background-color: #00F00030;
+  border-radius: 10px;
+  margin: 5px;
+}
+
 #quickRepliesHolder {
   display: block;
   margin-left: 30px;
@@ -178,6 +238,11 @@ div {
 }
 
 .from-user .message-inner p {
+  margin: 0.3125rem;
+  padding: 0 0.9375rem;
+}
+
+iframe {
   margin: 0.3125rem;
   padding: 0 0.9375rem;
 }

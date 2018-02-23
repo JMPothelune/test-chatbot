@@ -8,12 +8,15 @@
   <meta property="og:title" content="Conversation Chat Simple" />
   <meta property="og:description" content="Sample application that shows how to use the Conversation API to identify user intents" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" type="text/css" href="css/app.css">
+  <link rel="stylesheet" type="text/css" href="js/libs/slick/slick.css">
+
 </head>
 <body>
   <div id="fake-intranet">
     <img src="../img/generali_servicenow.png"/>
     <div class="redSeparator"/>
+    
   </div>
   <div id="view-change-button" class="button" onclick="PayloadPanel.togglePanel(event, this)">
     <img class="option full" src="../img/Chat Button.png">
@@ -22,29 +25,71 @@
   <div id="contentParent" class="responsive-columns-wrapper">
     <div id="chat-column-holder" class="responsive-column content-column">
       <div class="chat-column">
-        <h2 class="chatTitle">Votre assistant</h2>
+        <div class="header">
+ 
+            <h2 class="chatTitle">Votre assistant</h2>
+          
+            <div class="buttonHolder">
+              <a href="tel:84444"><img src="../img/call-answer-24px.png"/></a>
+              <a href="sip:helpdesk@generali.fr"><img src="../img/skype-logo-24px.png"/></a>
+            </div>
+        </div>
         <div id="scrollingChat">
           <div class="segments load"><div class="from-watson top"><div class="message-inner"><p>Bonjour, comment puis-je vous aider ?</p></div></div></div>
           <div class="segments load"><div class="from-user latest top"><div class="message-inner"><p>test</p></div></div></div>
           <div class="segments load"><div class="from-watson latest top"><div class="message-inner"><p>Pouvez-vous dire cela autrement ? Je ne comprends pas.</p></div></div></div>
           
           <div class="segments load"><div class="from-watson latest sub"><div class="message-inner">
-              <p><img src="http://i0.kym-cdn.com/photos/images/newsfeed/000/548/069/b07.jpg" style="border-radius:10px" width="300"/></p></div></div></div>
-      </div>
+    
+            <div class="choice-list">
+              <div>            
+                <p><img src="http://i0.kym-cdn.com/photos/images/newsfeed/000/548/069/b07.jpg" style="border-radius:10px" width="300"/></p>
+              </div>
+              <div>            
+                <p><img src="http://i0.kym-cdn.com/photos/images/newsfeed/000/548/069/b07.jpg" style="border-radius:10px" width="300"/></p>
+              </div>
+              <div>            
+                <p><img src="http://i0.kym-cdn.com/photos/images/newsfeed/000/548/069/b07.jpg" style="border-radius:10px" width="300"/></p>
+              </div>
+            </div>
+          </div></div></div>
+
+          <div class="segments load"><div class="from-watson latest sub"><div class="message-inner">
+
+            <div class="conversation-review">
+                <div>            
+                  <p><img src="../img/smiling.png" style="border-radius:10px" /></p>
+                </div>
+                <div>            
+                  <p><img src="../img/confused.png" style="border-radius:10px"/></p>
+                </div>
+                <div>            
+                  <p><img src="../img/sad.png" style="border-radius:10px" /></p>
+                </div>
+              </div>
+          </div></div></div>
+
+          <div class="segments load"><div class="from-watson latest sub"><div class="message-inner">
+            <p><img src="http://i0.kym-cdn.com/photos/images/newsfeed/000/548/069/b07.jpg" style="border-radius:10px" width="300"/></p>
+          </div></div></div>
+
+          <div class="segments load"><div class="from-watson latest sub"><div class="message-inner">
+              <iframe width="300" src="https://www.youtube.com/embed/tgbNymZ7vqY" frameborder="0" allowfullscreen> </iframe>
+          </div></div></div>
+
+
 
         <div id="quickRepliesHolder">
             <div class="quickReply">test 0</div>
             <div class="quickReply">test 1</div>
         </div>
-        <div id="contactHolder">
-            <p>Contacter le Helpdesk</p>
-            <a href="tel:84444"><img src="../img/telephone.png"/></a>
-            <a href="sip:helpdesk@generali.fr"><img src="../img/skype-logo.png"/></a>
-        </div>
-        <label for="textInput" class="inputOutline">
+
+      </div>
+        
+        <label for="textInput" class="inputOutline"/>
           <input id="textInput" class="input responsive-column"
             placeholder="Votre message" type="text"
-            onkeydown="ConversationPanel.inputKeyDown(event, this)">
+            onkeydown="ConversationPanel.inputKeyDown(event, this)"/>
       </div>
       </div>
     </div>
@@ -56,10 +101,21 @@
     </div>
   </div>
 
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script type="text/javascript" src="js/libs/slick/slick.min.js"></script>
+
   <script src="js/common.js"></script>
   <script src="js/api.js"></script>
   <script src="js/conversation.js"></script>
   <script src="js/payload.js"></script>
   <script src="js/global.js"></script>
+
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.caroussel').slick();
+    });
+  </script>
 </body> 
 </html>
