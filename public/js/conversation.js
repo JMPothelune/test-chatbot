@@ -122,6 +122,21 @@ var ConversationPanel = (function() {
     if (isUser !== null && textExists) {
       // Create new message DOM element
       var messageDivs = buildMessageDomElements(newPayload, isUser);
+      var imageDivs = buildImagesDomElements(newPayload, isUser);
+      var choiceDivs = buildChoicesDomElements(newPayload, isUser);
+      var videoDivs = buildVideoDomElements(newPayload, isUser);
+      var reviewDivs = buildReviewDomElements(newPayload, isUser);
+      console.log("imageDivs", imageDivs)
+      console.log("choiceDivs", choiceDivs)
+      console.log("videoDivs", videoDivs)
+      console.log("reviewDivs", reviewDivs)
+      messageDivs= messageDivs.concat(imageDivs);
+      messageDivs= messageDivs.concat(choiceDivs);
+      messageDivs= messageDivs.concat(videoDivs);
+      messageDivs= messageDivs.concat(reviewDivs);
+
+
+      console.log("messageDivs", messageDivs)
       var chatBoxElement = document.querySelector(settings.selectors.chatBox);
       var previousLatest = chatBoxElement.querySelectorAll((isUser
               ? settings.selectors.fromUser : settings.selectors.fromWatson)
@@ -185,6 +200,7 @@ var ConversationPanel = (function() {
     if (Object.prototype.toString.call( textArray ) !== '[object Array]') {
       textArray = [textArray];
     }
+
     var messageArray = [];
 
     textArray.forEach(function(currentText) {
@@ -216,6 +232,247 @@ var ConversationPanel = (function() {
     return messageArray;
   }
 
+  // Constructs new DOM element from a message payload
+  function buildImagesDomElements(newPayload, isUser) {
+    
+    var elementsArray = [];
+    
+    if(newPayload.output && newPayload.output.images){
+      elementsArray = newPayload.output.images;
+    }
+
+    if (Object.prototype.toString.call( elementsArray ) !== '[object Array]') {
+      elementsArray = [elementsArray];
+    }
+    console.log("buildImagesDomElements","elementsArray", elementsArray)
+
+    var messageArray = [];
+
+    elementsArray.forEach(function(element) {
+      if (element) {
+        var messageJson = {
+          // <div class='segments'>
+          'tagName': 'div',
+          'classNames': ['segments'],
+          'children': [{
+            // <div class='from-user/from-watson latest'>
+            'tagName': 'div',
+            'classNames': [(isUser ? 'from-user' : 'from-watson'), 'latest', 'sub'],
+            'children': [{
+              // <div class='message-inner'>
+              'tagName': 'div',
+              'classNames': ['message-inner'],
+              'children': [{
+                'tagName': 'div',
+                'children': [{
+                  'tagName': 'img',
+                  "attributes" : [
+                    {'name':'src', "value": element.src},
+                    {'name':'width', "value": "300"}
+                  ]
+                }]
+              }]
+            }]
+          }]
+        };
+        messageArray.push(Common.buildDomElement(messageJson));
+      }
+    });
+
+    return messageArray;
+  }
+
+  // Constructs new DOM element from a message payload
+  function buildChoicesDomElements(newPayload, isUser) {
+    
+    var elementsArray = [];
+    
+    if(newPayload.output && newPayload.output.choices){
+      elementsArray = newPayload.output.choices;
+    }
+
+    if (Object.prototype.toString.call( elementsArray ) !== '[object Array]') {
+      elementsArray = [elementsArray];
+    }
+    console.log("buildChoicesDomElements","elementsArray", elementsArray)
+
+    var messageArray = [];
+
+    elementsArray.forEach(function(element) {
+      if (element) {
+        var messageJson = {
+          // <div class='segments'>
+          'tagName': 'div',
+          'classNames': ['segments'],
+          'children': [{
+            // <div class='from-user/from-watson latest'>
+            'tagName': 'div',
+            'classNames': [(isUser ? 'from-user' : 'from-watson'), 'latest', 'sub'],
+            'children': [{
+              // <div class='message-inner'>
+              'tagName': 'div',
+              'classNames': ['message-inner'],
+              'children': [{
+                'tagName': 'div',
+                'classNames': ['choice'],
+                'children': [{
+              
+                  // <p>{messageText}</p>
+                  'tagName': 'img',
+                  "attributes" : [
+                    {'name':'src', "value": element.image},
+                    {'name':'width', "value": "300"}
+                  ]
+                  
+                }]
+              }]
+            }]
+          }]
+        };
+        
+        var domElement = Common.buildDomElement(messageJson);
+        domElement.addEventListener("click", function(e){
+          var message = element.message || "trouvé";
+          sendMessage(message);
+        })
+        messageArray.push(domElement);
+      }
+    });
+
+    return messageArray;
+  }
+
+
+  // Constructs new DOM element from a message payload
+  function buildReviewDomElements(newPayload, isUser) {
+    
+    if(!(newPayload.output && newPayload.output.options && newPayload.output.options.includes("review"))) {
+
+      return [];
+    }
+
+  
+    var elementsArray = [
+      { value:"good", image:"../img/smiling.png"},
+      { value:"neutral", image:"../img/confused.png"},
+      { value:"bad", image:"../img/sad.png"}
+    ];
+    
+
+    var messageArray = [];
+
+    var buttonArray = [];
+    
+    elementsArray.forEach(function(element) {
+      if (element) {
+        buttonArray.push(
+          {
+            'tagName': 'div',
+            'children': [{
+              // <p>{messageText}</p>
+              'tagName': 'img',
+              'classNames': ['conversation-review-button', element.value],
+              "attributes" : [
+                {'name':'src', "value": element.image},
+              ]
+              
+            }]
+          })
+      }
+    });
+
+    var messageJson = {
+      // <div class='segments'>
+      'tagName': 'div',
+      'classNames': ['segments'],
+      'children': [{
+        // <div class='from-user/from-watson latest'>
+        'tagName': 'div',
+        'classNames': [(isUser ? 'from-user' : 'from-watson'), 'latest', 'sub'],
+        'children': [{
+          // <div class='message-inner'>
+          'tagName': 'div',
+          'classNames': ['message-inner'],
+          'children': [{
+            'tagName': 'div',
+            'classNames': ['conversation-review'],
+            'children': buttonArray
+          }]
+        }]
+      }]
+    };
+    
+    var domParentElement = Common.buildDomElement(messageJson);
+
+    console.log(domParentElement)
+    elementsArray.forEach(function(element) {
+      if (element) {
+        domParentElement.getElementsByClassName(element.value)[0]
+          .addEventListener("click", function(e){
+            var message = element.value;
+            sendMessage(message);
+          })
+      }
+    });
+
+    return [domParentElement];
+  }
+  
+  // Constructs new DOM element from a message payload
+  function buildVideoDomElements(newPayload, isUser) {
+    
+    var elementsArray = [];
+    
+    if(newPayload.output && newPayload.output.video){
+      elementsArray = newPayload.output.video;
+    }
+
+    if (Object.prototype.toString.call( elementsArray ) !== '[object Array]') {
+      elementsArray = [elementsArray];
+    }
+
+    console.log("buildVideoDomElements","elementsArray", elementsArray)
+    var messageArray = [];
+
+    elementsArray.forEach(function(element) {
+      if (element) {
+        var messageJson = {
+          // <div class='segments'>
+          'tagName': 'div',
+          'classNames': ['segments'],
+          'children': [{
+            // <div class='from-user/from-watson latest'>
+            'tagName': 'div',
+            'classNames': [(isUser ? 'from-user' : 'from-watson'), 'latest', 'sub'],
+            'children': [{
+              // <div class='message-inner'>
+              'tagName': 'div',
+              'classNames': ['message-inner'],
+              'children': [{
+                'tagName': 'iframe',
+                "attributes" : [
+                  {'name':'src', "value": element},
+                  {'name':'width', "value": "300"},
+                  {'name':'frameborder', "value": "0"},
+                  {'name':'allowfullscreen', "value": "true"}
+                ]
+              }]
+            }]
+          }]
+        };
+        
+        var domElement = Common.buildDomElement(messageJson);
+        domElement.addEventListener("click", function(e){
+          var message = element.message || "trouvé";
+          sendMessage(message);
+        })
+        messageArray.push(domElement);
+      }
+    });
+    console.log("buildVideoDomElements","messageArray", messageArray)
+
+    return messageArray;
+  }
   // Constructs new DOM element from a message payload
   function buildQuickRepliesElements(newPayload) {
     var quickReplies = newPayload.output.quickReplies;

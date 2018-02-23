@@ -44,6 +44,7 @@ var Common = (function() {
     if (domJson.attributes) {
       for (var j = 0; j < domJson.attributes.length; j++) {
         var currentAttribute = domJson.attributes[j];
+        console.log("currentAttribute.name", currentAttribute.name)
         element.setAttribute(currentAttribute.name, currentAttribute.value);
       }
     }
