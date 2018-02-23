@@ -234,7 +234,7 @@ var ConversationPanel = (function() {
         };
         var domElement = Common.buildDomElement(messageJson);
         domElement.addEventListener("click", function(e){
-          var message = quickReply.message ||quickReply.text;
+          var message = quickReply.message || quickReply.text;
           sendMessage(message);
         })
         quickRepliesArray.push(domElement);
