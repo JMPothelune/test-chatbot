@@ -16,6 +16,7 @@ body {
   width: 100%;
   background-color: #BD2027;
 }
+
 div {
   word-wrap: break-word;
   line-height: 1.25rem;
@@ -50,8 +51,7 @@ div {
 }
 
 #contentParent {
-    position: absolute;     
-    max-height: 50%;
+    position: absolute;  
     bottom: 0px;
     right: 20px;
     width: 400px;
@@ -69,11 +69,23 @@ div {
   -ms-flex-direction: row;
 }
 
+.chat-column .chatTitle{
+    padding: 0px;
+    padding-left: 10px;
+    padding-top: 20px;
+    margin: 0px;
+    font-weight: 100;
+    font-size: 13pt;
+    font-style: normal;
+    font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+
 .responsive-column {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
 }
 
 #chat-column-holder {
@@ -85,7 +97,7 @@ div {
   flex-direction: column;
   align-content: flex-end;
   height: 100%;
-  padding: 0.9375rem 0 0.625rem 0;
+  padding: 0 0 0.625rem 0;
   margin: auto;
   text-align: left;
   max-width: 25rem;
@@ -94,8 +106,10 @@ div {
 
 #scrollingChat {
   margin: 0.75rem;
-  overflow-x: hidden;
-  
+ padding-top: 20px;
+  max-height: 300px;
+  overflow-x: auto;
+  overflow-y: scroll
 }
 
 .message-inner {
@@ -120,10 +134,11 @@ div {
 
 #quickRepliesHolder {
   display: block;
+  margin-left: 30px;
 }
 
 #quickRepliesHolder .quickReply{
-  float: right;
+  float: left;
   background-color: darkslateblue;
   color: white;
   border-radius: 200px;
