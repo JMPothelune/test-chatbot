@@ -1,15 +1,15 @@
 ---
 declared-services:
-  Conversation-Helpdesk-dev:
+  chatbot-generali-helpdes-conversati-1519392036702:
     label: conversation
     plan: lite
 applications:
-- name: Generali-Helpdesk-Webclient
+- name: generali-helpdesk-webclient-dev
   command: npm start
   path: .
   memory: 256M
   instances: 1
   services:
-  - Conversation-Helpdesk-dev
+  - chatbot-generali-helpdes-conversati-1519392036702
   env:
     NPM_CONFIG_PRODUCTION: false

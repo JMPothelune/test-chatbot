@@ -1,0 +1,52 @@
+<html>
+<head>
+  <base href="/">
+  <title>Conversation Chat App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta property="og:image" content="conversation.svg" />
+  <meta property="og:title" content="Conversation Chat Simple" />
+  <meta property="og:description" content="Sample application that shows how to use the Conversation API to identify user intents" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="css/app.css">
+  <link rel="stylesheet" type="text/css" href="js/libs/slick/slick.css">
+
+</head>
+<body>
+  <div id="fake-intranet">
+
+      <a href="/"><img src="../img/generali_servicenow.png"/></a>    <div class="redSeparator"/>
+    
+  </div>
+    
+      <form id="ticketEditor" action="./submit.html">
+          <div>
+              <label>Plateforme</label>
+              <input type="text" name="platform">
+          </div>
+          <div>
+              <label>Titre</label>
+              <input type="text" name="title">
+          </div>
+          <div>
+              <label>Description</label>
+              <textarea name="message" cols="40" rows="10"></textarea>
+          </div>
+        <div class="button">
+            <button type="submit">Soumettre votre demande </button>
+        </div>
+      </form>
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script type="text/javascript" src="js/libs/slick/slick.min.js"></script>
+
+  <script src="js/tickets.js"></script>
+
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.caroussel').slick();
+    });
+  </script>
+</body> 
+</html>

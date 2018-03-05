@@ -126,14 +126,17 @@ var ConversationPanel = (function() {
       var choiceDivs = buildChoicesDomElements(newPayload, isUser);
       var videoDivs = buildVideoDomElements(newPayload, isUser);
       var reviewDivs = buildReviewDomElements(newPayload, isUser);
+      var ticketDivs = buildTicketDomElements(newPayload, isUser);
       console.log("imageDivs", imageDivs)
       console.log("choiceDivs", choiceDivs)
       console.log("videoDivs", videoDivs)
       console.log("reviewDivs", reviewDivs)
+      console.log("ticketDivs", ticketDivs)
       messageDivs= messageDivs.concat(imageDivs);
       messageDivs= messageDivs.concat(choiceDivs);
       messageDivs= messageDivs.concat(videoDivs);
       messageDivs= messageDivs.concat(reviewDivs);
+      messageDivs= messageDivs.concat(ticketDivs);
 
 
       console.log("messageDivs", messageDivs)
@@ -205,6 +208,8 @@ var ConversationPanel = (function() {
 
     textArray.forEach(function(currentText) {
       if (currentText) {
+
+        text = currentText;
         var messageJson = {
           // <div class='segments'>
           'tagName': 'div',
@@ -473,6 +478,63 @@ var ConversationPanel = (function() {
 
     return messageArray;
   }
+
+  
+  
+  // Constructs new DOM element from a message payload
+  function buildTicketDomElements(newPayload, isUser) {
+    
+    var elementsArray = [];
+    
+    if(newPayload.output && newPayload.output.ticket){
+      elementsArray = newPayload.output.ticket;
+    }
+
+    if (Object.prototype.toString.call( elementsArray ) !== '[object Array]') {
+      elementsArray = [elementsArray];
+    }
+
+    console.log("buildTicketDomElements","elementsArray", elementsArray)
+    var messageArray = [];
+
+    elementsArray.forEach(function(element) {
+      if (element) {
+        var messageJson = {
+          // <div class='segments'>
+          'tagName': 'div',
+          'classNames': ['segments'],
+          'children': [{
+            // <div class='from-user/from-watson latest'>
+            'tagName': 'div',
+            'classNames': [(isUser ? 'from-user' : 'from-watson'), 'latest', 'sub'],
+            'children': [{
+              // <div class='message-inner'>
+              'tagName': 'div',
+              'classNames': ['message-inner'],
+              'children': [{
+                'tagName': 'a',
+                'classNames': ['createTicket'],
+                "attributes" : [
+                  {'name':'href', "value": "./ticket.html?" + getAsUriParameters(element)}
+                ],
+                'text': "Ouvrir une demande"
+              }]
+            }]
+          }]
+        };
+        
+        var domElement = Common.buildDomElement(messageJson);
+        domElement.addEventListener("click", function(e){
+          var message = element.message || "trouvé";
+          sendMessage(message);
+        })
+        messageArray.push(domElement);
+      }
+    });
+    console.log("buildVideoDomElements","messageArray", messageArray)
+
+    return messageArray;
+  }
   // Constructs new DOM element from a message payload
   function buildQuickRepliesElements(newPayload) {
     var quickReplies = newPayload.output.quickReplies;
@@ -542,3 +604,12 @@ var ConversationPanel = (function() {
 
   }
 }());
+
+function getAsUriParameters(data) {
+  var url = '';
+  for (var prop in data) {
+     url += encodeURIComponent(prop) + '=' + 
+         encodeURIComponent(data[prop]) + '&';
+  }
+  return url.substring(0, url.length - 1)
+}

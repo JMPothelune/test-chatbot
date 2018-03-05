@@ -1,15 +1,15 @@
 ---
 declared-services:
-  Conversation-Helpdesk-dev:
+  ChatBot Organisateur de Réunions:
     label: conversation
     plan: lite
 applications:
-- name: Generali-Helpdesk-Webclient
+- name: Chatbot_UI_Reservation_salle
   command: npm start
   path: .
   memory: 256M
   instances: 1
   services:
-  - Conversation-Helpdesk-dev
+  - ChatBot Organisateur de Réunions
   env:
     NPM_CONFIG_PRODUCTION: false
