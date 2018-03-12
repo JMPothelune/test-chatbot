@@ -38,6 +38,12 @@ function onReviewHandler(data) {
         reviews.push(review);
         if(review.review) {reviewsValues[review.review] ++;}
     }
+
+    reviews.sort(function(a,b){
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return (b.date || 0) -  (a.date || 0);
+      });
     console.log(reviews)
     console.log(reviewsValues)
 
@@ -76,7 +82,7 @@ function setDataValue(tbody, data) {
         var tr = _tr_.cloneNode(false);
         {
             var td = _td_.cloneNode(false);
-            td.appendChild(document.createTextNode(review.date || ''));
+            td.appendChild(document.createTextNode(review.date ? moment.unix(review.date).calendar() : 'Inconnue'));
             tr.appendChild(td);
         }
         

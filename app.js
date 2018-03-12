@@ -86,6 +86,7 @@ app.get('/api/review', function(req, res) {
 app.post('/api/review', function(req, res) {
 
   console.log(req.body);
+  req.body.date = Date.now();
   reviews.insert(req.body,function(err, body, header) {
     if (err) {
       return console.log('[reviews.insert] ', err.message);
