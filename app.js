@@ -19,6 +19,13 @@
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
 var Conversation = require('watson-developer-cloud/conversation/v1'); // watson sdk
+var Cloudant = require('@cloudant/cloudant');
+
+var me = process.env.cloudant_user; // Set this to your own account
+var password = process.env.cloudant_password;
+
+var cloudant = Cloudant({account:me, password:password});
+var reviews = cloudant.db.use('reviews')
 
 var app = express();
 
@@ -58,6 +65,23 @@ app.post('/api/message', function(req, res) {
       return res.status(err.code || 500).json(err);
     }
     return res.json(updateMessage(payload, data));
+  });
+});
+
+app.post('/api/review', function(req, res) {
+
+  console.log(req.body);
+  reviews.insert(req.body,function(err, body, header) {
+    if (err) {
+      return console.log('[reviews.insert] ', err.message);
+      res.statusCode = 500;
+      res.send(err);
+    }
+
+    console.log('You have inserted the panda.');
+    console.log(body);
+    res.statusCode = 200;
+    res.send(body);
   });
 });
 

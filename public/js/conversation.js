@@ -17,7 +17,7 @@ var ConversationPanel = (function() {
       watson: 'watson'
     }
   };
-
+  var conversationLogs = [];
   // Publicly accessible methods defined
   return {
     init: init,
@@ -113,9 +113,10 @@ var ConversationPanel = (function() {
     Common.fireEvent(input, 'input');
   }
 
+  
   // Display a user or Watson message that has just been sent/received
   function displayMessage(newPayload, typeValue) {
-
+    conversationLogs.push(newPayload);
     var isUser = isUserMessage(typeValue);
     var textExists = (newPayload.input && newPayload.input.text)
       || (newPayload.output && newPayload.output.text);
@@ -356,6 +357,7 @@ var ConversationPanel = (function() {
       return [];
     }
 
+    var conversationToSend = JSON.clone(conversationLogs);
   
     var elementsArray = [
       { value:"good", image:"../img/smiling.png"},
@@ -414,8 +416,7 @@ var ConversationPanel = (function() {
       if (element) {
         domParentElement.getElementsByClassName(element.value)[0]
           .addEventListener("click", function(e){
-            var message = element.value;
-            sendMessage(message);
+            sendReview(conversationToSend, element.value)
           })
       }
     });
@@ -603,7 +604,14 @@ var ConversationPanel = (function() {
       Api.sendRequest(message, context);
 
   }
+  function sendReview(conversation, review){
+    console.log(Api);
+    // Send the user message
+    Api.sendReview(review, conversation);
+  }
+  
 }());
+
 
 function getAsUriParameters(data) {
   var url = '';
@@ -612,4 +620,10 @@ function getAsUriParameters(data) {
          encodeURIComponent(data[prop]) + '&';
   }
   return url.substring(0, url.length - 1)
+}
+
+if (typeof JSON.clone !== "function") {
+  JSON.clone = function(obj) {
+      return JSON.parse(JSON.stringify(obj));
+  };
 }
