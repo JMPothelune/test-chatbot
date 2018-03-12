@@ -244,6 +244,12 @@ div {
     margin-left: 30px;
     margin-top: 20px;
 }
+#stats{
+  display: flex;
+}
+#stats-good {background: #00E676;}
+#stats-neutral {background: #FFD600;}
+#stats-bad {background: #F44336;}
 
 .createTicket:hover {
     background-color: #00000022;    
@@ -288,7 +294,7 @@ iframe {
   position: relative;
   border-radius: 1.5625rem;
   font-size: 1rem;
-  color: #B5B5B5;
+  color: #323232;
   letter-spacing: 0.015rem;
   line-height: 1.3125rem;
 }

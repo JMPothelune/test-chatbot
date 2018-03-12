@@ -31,13 +31,18 @@ var tbody = document.getElementById("conversation-list");
 function onReviewHandler(data) {
     
     reviews = [];
+    var reviewsValues = {good:0, neutral:0, bad:0};
+
     for (var i=0, maxi=data.rows.length; i < maxi; ++i) {
         var review = data.rows[i].doc; 
         reviews.push(review);
+        if(review.review) {reviewsValues[review.review] ++;}
     }
     console.log(reviews)
+    console.log(reviewsValues)
 
     setDataValue(tbody, reviews)
+    setRateValues(reviewsValues)
 
 }
 
@@ -49,6 +54,21 @@ function showReview(review){
         ConversationPanel.displayMessage(payload , i%2 == 0 ?  'watson' : 'user')
     }
 }
+
+
+function setRateValues(reviewsValues) {
+
+    var sum = reviewsValues.good + reviewsValues.neutral + reviewsValues.bad;
+    console.log("sum", sum)
+    if(sum> 0){
+
+        document.getElementById('stats-bad').style = "width:"+reviewsValues.bad/sum*100+"%;";
+        document.getElementById('stats-neutral').style = "width:"+reviewsValues.neutral/sum*100+"%;";
+        document.getElementById('stats-good').style = "width:"+reviewsValues.good/sum*100+"%; ";
+    }
+}
+
+
 function setDataValue(tbody, data) {
     tbody.innerHTML = "";
     for (var i=0, maxi=data.length; i < maxi; ++i) {
