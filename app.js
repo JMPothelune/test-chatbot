@@ -32,6 +32,7 @@ var app = express();
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
+app.use('/dashboard', express.static('./dashboard'));
 
 // Create the service wrapper
 var conversation = new Conversation({
@@ -65,6 +66,20 @@ app.post('/api/message', function(req, res) {
       return res.status(err.code || 500).json(err);
     }
     return res.json(updateMessage(payload, data));
+  });
+});
+
+app.get('/api/review', function(req, res) {
+
+  reviews.list({include_docs:true}, function(err, result) {
+    if (err) {
+      return console.log('[reviews.get] ', err.message);
+      res.statusCode = 500;
+      res.send(err);
+    }
+
+    res.statusCode = 200;
+    res.send(result);
   });
 });
 
