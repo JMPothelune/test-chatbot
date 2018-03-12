@@ -198,6 +198,7 @@ div {
   padding: 5px 15px 7px 15px;
   margin-left: 5px;
   margin-right: 5px;
+  margin-bottom: 2px;
   font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
   cursor: pointer;
   user-select: none;

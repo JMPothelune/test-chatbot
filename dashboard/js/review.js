@@ -4,6 +4,8 @@ var _th_ = document.createElement('th'),
     _i_ = document.createElement('i'); 
     _i_.className = ["mdl-color-text--blue-grey-300 material-icons"];
 
+moment.locale("fr");
+
 var REVIEW_ICONS = {
     "good":"sentiment_very_satisfied",
     "bad":"sentiment_very_dissatisfied",
@@ -82,7 +84,7 @@ function setDataValue(tbody, data) {
         var tr = _tr_.cloneNode(false);
         {
             var td = _td_.cloneNode(false);
-            td.appendChild(document.createTextNode(review.date ? moment.unix(review.date).calendar() : 'Inconnue'));
+            td.appendChild(document.createTextNode(review.date ? moment.unix(review.date/1000).calendar() : 'Inconnue'));
             tr.appendChild(td);
         }
         

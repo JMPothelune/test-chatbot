@@ -162,6 +162,8 @@ var ConversationPanel = (function() {
     }
 
     updateQuickReplies(newPayload);
+
+    
   }
 
   // Display a user or Watson message that has just been sent/received
@@ -182,6 +184,25 @@ var ConversationPanel = (function() {
       quickRepliesDivs.forEach(function(currentDiv) {
         quickRepliesHolder.appendChild(currentDiv);
       });
+    }
+
+    var input = document.getElementById('textInput');
+    console.log("===============input", input)
+    if(input){
+      console.log("=============== newPayload.output", newPayload.output)      
+      if(quickRepliesExists
+        && (newPayload.output 
+          && newPayload.output.options 
+          && newPayload.output.options.includes("forceQuickReplies"))) {
+            
+            input.disabled="disabled";
+            input.placeholder = "Séléctionner une des réponses"
+          }else{
+            input.disabled=null;
+            input.placeholder = "Votre message"
+          }
+      
+
     }
   }
 
@@ -560,6 +581,8 @@ var ConversationPanel = (function() {
         quickRepliesArray.push(domElement);
       }
     });
+
+
 
     return quickRepliesArray;
   }
